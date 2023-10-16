@@ -1,0 +1,44 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+
+file_path = r'C:\Users\zaina\OneDrive\Desktop\original_diabetes.xlsx'
+df = pd.read_excel(file_path)
+
+def mean(data):
+    return np.mean(data)
+
+def variance(data):
+    mean_val = mean(data)
+    squared_differences = np.square(data - mean_val)
+    return np.sum(squared_differences) / (len(data) - 1)
+
+def standard_deviation(data):
+    return np.sqrt(variance(data))
+
+def z_score(x, mean, std):
+    return (x - mean) / std
+
+glucose_mean = mean(df.iloc[:, 1])
+glucose_variance = variance(df.iloc[:, 1])
+glucose_std = standard_deviation(df.iloc[:, 1])
+
+blood_pressure_mean = mean(df.iloc[:, 2])
+blood_pressure_variance = variance(df.iloc[:, 2])
+blood_pressure_std = standard_deviation(df.iloc[:, 2])
+
+glucose_quartiles = np.percentile(df.iloc[:, 1], [25, 50, 75])
+blood_pressure_quartiles = np.percentile(df.iloc[:, 2], [25, 50, 75])
+
+fig, ax = plt.subplots()
+ax.boxplot([df.iloc[:, 1], df.iloc[:, 2]], vert=False, labels=['Glucose', 'BloodPressure'])
+plt.show()
+
+print('Glucose mean:', glucose_mean)
+print('Glucose variance:', glucose_variance)
+print('Glucose standard deviation:', glucose_std)
+print('Glucose quartiles:', glucose_quartiles)
+print('BloodPressure mean:', blood_pressure_mean)
+print('BloodPressure variance:', blood_pressure_variance)
+print('BloodPressure standard deviation:', blood_pressure_std)
+print('BloodPressure quartiles:', blood_pressure_quartiles)
