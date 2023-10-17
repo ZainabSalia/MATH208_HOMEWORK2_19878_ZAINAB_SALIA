@@ -1,0 +1,35 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+def linear_regression_coefficients(X, y):
+  X_mean = np.mean(X)
+  y_mean = np.mean(y)
+  X_variance = np.var(X)
+  y_variance = np.var(y)
+  covariance = np.cov(X, y)[0][1]
+  slope = covariance / X_variance
+  intercept = y_mean - slope * X_mean
+  return slope, intercept
+
+
+X = np.array([2, 3, 4, 5, 6, 7, 8, 9, 10, 11])
+y = np.array([25, 30, 95, 115, 265, 325, 570, 700, 1085, 1300])
+
+
+slope, intercept = linear_regression_coefficients(X, y)
+
+
+r = np.corrcoef(X, y)[0][1]
+
+
+print("Slope:", slope)
+print("Intercept:", intercept)
+print("Coefficient of linear correlation:", r)
+
+y_pred = slope * X + intercept
+plt.plot(X, y, 'o')
+plt.plot(X, y_pred, '-')
+plt.xlabel('X')
+plt.ylabel('y')
+plt.title('Linear regression')
+plt.show()
